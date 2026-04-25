@@ -76,16 +76,15 @@ def chat():
     if not doctor_message:
         return jsonify({"error": "رسالة فارغة"}), 400
 
-    # Add doctor message as assistant turn, then get mother's reply
-    # Build messages: alternating user/assistant
-    # Mother = user, Doctor = assistant in Claude's perspective
-    # We flip roles: system is the mother, doctor messages are "user" prompts
+    # إذا ما في محادثة، ابدأ تلقائياً
+    if not conversation_history:
+        initial_message = "السلام عليكم دكتور.. أنا أم علي. جيت اليوم عشان أعرف نتائج الفحوصات. هل طلع فيه شي؟"
+        conversation_history.append(
+            {"role": "user", "content": initial_message})
 
-    # Add doctor's message
     conversation_history.append(
         {"role": "assistant", "content": doctor_message})
 
-    # Call Claude API
     try:
         response = client.messages.create(
             model="claude-sonnet-4-20250514",
@@ -98,7 +97,6 @@ def chat():
         print(f"Claude API error: {e}")
         mother_reply = "آسفة دكتور.. ما فهمت كلامك. ممكن توضح لي أكثر؟"
 
-    # Add mother's reply
     conversation_history.append({"role": "user", "content": mother_reply})
 
     return jsonify({
