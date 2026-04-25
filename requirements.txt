@@ -4,4 +4,3 @@ gunicorn==21.2.0
 transformers==4.35.0
 sentencepiece==0.1.99
 deep-translator==1.11.0
-tokenizers==0.19.1

@@ -2,7 +2,6 @@ services:
   - type: web
     name: osce-backend
     env: python
-    pythonVersion: "3.11.9"
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
     startCommand: gunicorn app:app
     region: oregon
